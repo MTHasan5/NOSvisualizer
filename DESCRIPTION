@@ -19,3 +19,5 @@ Imports:
     tidyr,
     patchwork
 RoxygenNote: 7.3.3
+URL: https://github.com/MTHasan5/NOSvisualizer
+BugReports: https://github.com/MTHasan5/NOSvisualizer/issues
