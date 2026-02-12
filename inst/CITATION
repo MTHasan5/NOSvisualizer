@@ -4,7 +4,7 @@ citEntry(
   entry    = "Manual",
   title    = "NOSvisualizer: Newcastle-Ottawa Scale Quality Visualization",
   author   = person(
-    given  = "Mohammed Tarek Hasan",
+    given  = "Mohammed Tarek",
     family = "Hasan",
     role   = c("aut", "cre")
   ),
