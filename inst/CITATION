@@ -1,0 +1,20 @@
+citHeader("To cite NOSvisualizer in publications:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "NOSvisualizer: Newcastle-Ottawa Scale Quality Visualization",
+  author   = person(
+    given  = "Mohammed Tarek Hasan",
+    family = "Hasan",
+    role   = c("aut", "cre")
+  ),
+  year     = "2026",
+  note     = "R package version 0.1.0",
+  url      = "https://github.com/MTElgammal/NOSvisualizer",
+  textVersion = paste(
+    "Hasan MT (2026).",
+    "NOSvisualizer: Newcastle-Ottawa Scale Quality Visualization.",
+    "R package version 0.1.0.",
+    "Available at https://github.com/MTElgammal/NOSvisualizer"
+  )
+)

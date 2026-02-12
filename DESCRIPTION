@@ -1,0 +1,21 @@
+Package: NOSvisualizer
+Type: Package
+Title: Newcastle-Ottawa Scale Quality Visualization
+Version: 0.1.1
+Authors@R: 
+    person("Mohammed Tarek", "Hasan",
+           email = "mohammedtarekhasan1@outlook.com",
+           role = c("aut", "cre"))
+Description: Tools to visualize Newcastle-Ottawa Scale (NOS) quality
+    assessment results using traffic-light style plots and summary
+    bar charts for systematic reviews and meta-analyses.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Imports:
+    ggplot2,
+    dplyr,
+    tidyr,
+    patchwork
+RoxygenNote: 7.3.3

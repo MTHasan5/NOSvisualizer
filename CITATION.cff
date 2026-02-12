@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "NOSvisualizer: Newcastle-Ottawa Scale Quality Visualization"
+type: software
+
+authors:
+  - given-names: Mohammed Tarek
+    family-names: Hasan
+    email: mohammedtarekhasan1@outlook.com
+
+repository-code: https://github.com/MTHasan5/NOSvisualizer
+url: https://github.com/MTHasan5/NOSvisualizer
+
+license: MIT
+
+keywords:
+  - Newcastle-Ottawa Scale
+  - quality assessment
+  - meta-analysis
+  - epidemiology
+  - systematic review
+  - R package
+
+version: 0.1.1
+date-released: 2026-02-11
