@@ -1,26 +1,47 @@
-utils::globalVariables(c(
-  "D1","D2","D3","D4","D5","D6","D7","D8",
-  "Study","Domain","Score","Quality",
-  "Selection","Comparability","Outcome",
-  "Major_Domain"
-))
+# Bind global variables to avoid R CMD check notes
+Study <- Domain <- Score <- Quality <- NULL
+D1 <- D2 <- D3 <- D4 <- D5 <- D6 <- D7 <- D8 <- NULL
+Selection <- Comparability <- Outcome <- Major_Domain <- NULL
 
 #' Newcastle-Ottawa Scale (NOS) Quality Plot
 #'
-#' Creates a traffic-light style NOS plot with a summary score bar chart.
+#' Creates a Cochrane-style traffic-light plot for the 8 NOS domains
+#' along with a stacked bar chart summarizing the three major domains
+#' (Selection, Comparability, Outcome).
 #'
-#' @param data A data frame with columns Study, D1-D8, and Quality
-#' @param save Logical; save the plot to file?
-#' @param filename Output filename (PNG)
-#' @param width Plot width in inches
-#' @param height Plot height in inches
-#' @param dpi Resolution in DPI
+#' @param data A data frame containing:
+#'   \itemize{
+#'     \item Study: Study name
+#'     \item D1-D8: Domain scores (0–2)
+#'     \item Quality: Overall quality label
+#'   }
+#' @param save Logical; whether to save the plot.
+#' @param filename Output filename (PNG).
+#' @param width Width in inches.
+#' @param height Height in inches.
+#' @param dpi Resolution in DPI.
 #'
-#' @return A ggplot object
+#' @details
+#' Domain scoring:
+#' \itemize{
+#'   \item Selection = D1 + D2 + D3 + D4
+#'   \item Comparability = D5
+#'   \item Outcome = D6 + D7 + D8
+#' }
+#'
+#' @return A patchwork ggplot object.
 #' @export
 #'
 #' @examples
+#' demo_data <- data.frame(
+#'   Study = c("Study A", "Study B"),
+#'   D1 = c(1,1), D2 = c(1,0), D3 = c(1,1), D4 = c(1,1),
+#'   D5 = c(2,1),
+#'   D6 = c(1,1), D7 = c(1,0), D8 = c(1,1),
+#'   Quality = c("High", "Moderate")
+#' )
 #' nos_plot(demo_data)
+
 nos_plot <- function(
     data,
     save = FALSE,
@@ -48,7 +69,7 @@ nos_plot <- function(
       Selection = D1 + D2 + D3 + D4,
       Comparability = D5,
       Outcome = D6 + D7 + D8,
-      Study = factor(Study, levels = rev(Study))
+      Study = factor(Study, levels = rev(unique(Study)))
     )
 
   plot_tl_data <- data |>
@@ -58,7 +79,7 @@ nos_plot <- function(
       values_to = "Score"
     ) |>
     dplyr::mutate(
-      Study = factor(Study, levels = rev(data$Study))
+      Study = factor(Study, levels = rev(unique(data$Study)))
     )
 
   # ---- traffic-light plot ----
@@ -76,7 +97,7 @@ nos_plot <- function(
     ) +
     ggplot2::geom_label(
       data = nos_processed,
-      ggplot2::aes(x = 9, label = Quality),
+      ggplot2::aes(x = "Quality", y = Study, label = Quality),
       size = 3.5,
       label.size = NA
     ) +
@@ -86,7 +107,10 @@ nos_plot <- function(
         "1" = "#a6d96a",
         "2" = "#1a9641"
       ),
-      guide = "none"
+      name = "Score"
+    ) +
+    ggplot2::scale_x_discrete(
+      limits = c(paste0("D", 1:8), "Quality")
     ) +
     ggplot2::labs(
       title = "Newcastle-Ottawa Scale Quality Assessment",
@@ -119,9 +143,14 @@ nos_plot <- function(
       width = 0.6
     ) +
     ggplot2::coord_flip() +
+    ggplot2::labs(
+      x = "",
+      y = "Score",
+      fill = "Domain"
+    ) +
     ggplot2::theme_classic()
 
-  # ---- combine plots (CRAN-safe) ----
+  # ---- combine plots ----
   final_plot <- patchwork::wrap_plots(
     p1, p2,
     ncol = 1,
