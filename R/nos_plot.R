@@ -79,7 +79,8 @@ nos_plot <- function(
       values_to = "Score"
     ) |>
     dplyr::mutate(
-      Study = factor(Study, levels = rev(unique(data$Study)))
+      Study = factor(Study, levels = rev(unique(data$Study))),
+      Score = factor(Score)
     )
 
   # ---- traffic-light plot ----
@@ -88,12 +89,15 @@ nos_plot <- function(
     ggplot2::aes(x = Domain, y = Study)
   ) +
     ggplot2::geom_point(
-      ggplot2::aes(fill = factor(Score)),
-      size = 9, shape = 21, color = "black"
+      ggplot2::aes(fill = Score),
+      size = 9,
+      shape = 21,
+      color = "black"
     ) +
     ggplot2::geom_text(
       ggplot2::aes(label = Score),
-      size = 3, fontface = "bold"
+      size = 3,
+      fontface = "bold"
     ) +
     ggplot2::geom_label(
       data = nos_processed,
@@ -110,20 +114,30 @@ nos_plot <- function(
       name = "Score"
     ) +
     ggplot2::scale_x_discrete(
-      limits = c(paste0("D", 1:8), "Quality")
+      limits = c(paste0("D", 1:8), "Quality"),
+      labels = c(
+        "Representativeness",
+        "Non-exposed selection",
+        "Exposure ascertainment",
+        "Outcome not at start",
+        "Comparability",
+        "Assessment of outcome",
+        "Follow-up length",
+        "Follow-up adequacy",
+        "Overall Quality"
+      )
     ) +
     ggplot2::labs(
       title = "Newcastle-Ottawa Scale Quality Assessment",
       x = "",
       y = ""
     ) +
-    ggplot2::theme_classic()
+    ggplot2::theme_classic()+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
   # ---- summary bar plot ----
   plot_sum_data <- nos_processed |>
-    dplyr::select(
-      Study, Selection, Comparability, Outcome
-    ) |>
+    dplyr::select(Study, Selection, Comparability, Outcome) |>
     tidyr::pivot_longer(
       -Study,
       names_to = "Major_Domain",
